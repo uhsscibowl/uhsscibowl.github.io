@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>NASTI 1 · Science Bowl in Irvine</title>
-  <meta name="description" content="NASTI 1 is the first Novice Amalgam SciBowl Tournament in Irvine. Saturday, November 28th, 2026 at University High School. Free, lunch provided, zero prior experience required.">
+  <title>NASTI 1</title>
+  <meta name="description" content="The first Novice Amalgam SciBowl Tournament in Irvine (NASTI 1) will be held Saturday, November 28th, 2026 at University High School.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -40,7 +41,7 @@
       <figure class="hero-photo">
         <img src="assets/team.jpg" width="1400" height="598"
              alt="Members of the University High School Science Bowl team turning around in their seats and smiling at the 2026 MIT Science Bowl Invitational">
-        <figcaption>University High School at the 2026 MIT Science Bowl Invitational</figcaption>
+        <figcaption>University High School at the 2026 MIT Science Bowl Invitational <span class="credit">— Toby Wei</span></figcaption>
         <span class="sticker-free"><span>100%</span><b>free</b></span>
       </figure>
 
@@ -55,7 +56,7 @@
           <ol class="timeline">
             <li><b>9 AM</b> check-in begins</li>
             <li><b>12 PM</b> free lunch</li>
-            <li><b>3 PM</b> we wrap up (about)</li>
+            <li><b>3 PM</b> awards ceremony</li>
           </ol>
           <p class="fact-small">exact times TBD</p>
         </div>
@@ -96,8 +97,7 @@
       <p class="round-tag"><span class="tag-type tag-bonus">Bonus</span><span>Vocabulary</span><span>Short answer</span></p>
 
       <p class="q-stem">
-        Scientists at University and Northwood High Schools are planning an Amalgam invitational.
-        What does Amalgam mean?
+        What does Amalgam (the A in NASTI 1) mean?
       </p>
 
       <h2 id="amalgam-a" class="q-answer amalgam-answer">
@@ -112,27 +112,54 @@
         <li><span class="choice-letter">4</span> <span>You compete alongside <b>students from different schools</b>.</span></li>
       </ol>
 
+      <!-- Mixing diagram: color = school, shape = best subject.
+           Shapes double as letters: right triangle = N, triangle = A, circle = S, square = T
+           (same as the favicon). Each school is lopsided; Claude deals one of each per team. -->
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <symbol id="s-n" viewBox="0 0 24 24"><polygon points="3,3 3,21 21,21"/></symbol>
+        <symbol id="s-a" viewBox="0 0 24 24"><polygon points="12,2.5 22,20.5 2,20.5"/></symbol>
+        <symbol id="s-s" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/></symbol>
+        <symbol id="s-t" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18"/></symbol>
+      </svg>
+
       <div class="mixer" aria-hidden="true">
         <div class="mixer-col">
-          <span class="mixer-label">sign-ups</span>
-          <div class="pod"><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i></div>
-          <div class="pod"><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i></div>
-          <div class="pod"><i class="o"></i><i class="o"></i><i class="o"></i><i class="o"></i></div>
+          <span class="mixer-label">schools</span>
+          <div class="pod">
+            <svg class="p"><use href="#s-a"/></svg><svg class="p"><use href="#s-a"/></svg>
+            <svg class="p"><use href="#s-a"/></svg><svg class="p"><use href="#s-s"/></svg>
+          </div>
+          <div class="pod">
+            <svg class="b"><use href="#s-n"/></svg><svg class="b"><use href="#s-s"/></svg>
+            <svg class="b"><use href="#s-s"/></svg><svg class="b"><use href="#s-t"/></svg>
+          </div>
+          <div class="pod">
+            <svg class="o"><use href="#s-n"/></svg><svg class="o"><use href="#s-n"/></svg>
+            <svg class="o"><use href="#s-t"/></svg><svg class="o"><use href="#s-t"/></svg>
+          </div>
         </div>
         <div class="mixer-arrow"><span>Claude</span></div>
         <div class="mixer-col">
           <span class="mixer-label">teams</span>
-          <div class="pod"><i class="p"></i><i class="b"></i><i class="o"></i><i class="b"></i></div>
-          <div class="pod"><i class="b"></i><i class="o"></i><i class="p"></i><i class="p"></i></div>
-          <div class="pod"><i class="o"></i><i class="p"></i><i class="b"></i><i class="o"></i></div>
-        </div>
-      </div>
+          <div class="pod">
+            <svg class="o"><use href="#s-n"/></svg><svg class="p"><use href="#s-a"/></svg>
+            <svg class="p"><use href="#s-s"/></svg><svg class="o"><use href="#s-t"/></svg>
+          </div>
+          <div class="pod">
+            <svg class="o"><use href="#s-n"/></svg><svg class="p"><use href="#s-a"/></svg>
+            <svg class="b"><use href="#s-s"/></svg><svg class="b"><use href="#s-t"/></svg>
+          </div>
+          <div class="pod">
+            <svg class="b"><use href="#s-n"/></svg><svg class="p"><use href="#s-a"/></svg>
+            <svg class="b"><use href="#s-s"/></svg><svg class="o"><use href="#s-t"/></svg>
+          </div>
+        </div>      </div>
     </section>
 
     <!-- ============ REGISTER (toss-up) ============ -->
     <section class="round round-register" id="register" aria-labelledby="register-h">
       <p class="round-tag"><span class="tag-type">Toss-up</span><span>Discord</span><span>Multiple choice</span></p>
-      <h2 id="register-h" class="register-h">To register, send a <b>Discord DM</b> to either of:</h2>
+      <h2 id="register-h" class="register-h">To register, send a <b>Discord DM</b> to either&nbsp;of:</h2>
 
       <ul class="contacts">
         <li class="contact">
@@ -156,32 +183,32 @@
 
     <!-- ============ ORGANIZERS (bonus) ============ -->
     <section class="round round-org" aria-labelledby="org-q">
-      <p class="round-tag"><span class="tag-type tag-bonus">Bonus</span><span>Money</span><span>Multiple choice</span></p>
+      <p class="round-tag"><span class="tag-type tag-bonus">Bonus</span><span>Sponsors</span><span>Short answer</span></p>
 
-      <h2 id="org-q" class="q-stem">Which of the following are behind NASTI 1?</h2>
+      <h2 id="org-q" class="q-stem">Identify all of the following four organizations behind NASTI 1.</h2>
 
       <ol class="logo-choices">
         <li class="logo-choice logo-dark">
-          <span class="choice-letter">W</span>
+          <span class="choice-letter">1</span>
           <img src="assets/uhs.png" width="800" height="176" alt="University High School">
         </li>
         <li class="logo-choice logo-dark">
-          <span class="choice-letter">X</span>
+          <span class="choice-letter">2</span>
           <img src="assets/nhs.png" width="900" height="152" alt="Northwood High School">
         </li>
         <li class="logo-choice logo-light">
-          <span class="choice-letter">Y</span>
+          <span class="choice-letter">3</span>
           <img class="logo-square" src="assets/schist.jpg" width="357" height="357" alt="SCHIST logo">
         </li>
         <li class="logo-choice logo-light">
-          <span class="choice-letter">Z</span>
+          <span class="choice-letter">4</span>
           <img class="logo-square" src="assets/trsc.png" width="360" height="418" alt="Turtle Rock Science Club">
         </li>
       </ol>
 
       <p class="q-answer org-answer">
         <span class="answer-label">ANSWER:</span>
-        <b>ALL OF THE ABOVE</b>
+        <b>ALL</b>
       </p>
 
       <p class="org-text">

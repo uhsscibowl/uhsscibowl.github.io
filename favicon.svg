@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- "in Irvine": the tile is pinched at the sides into an I -->
+  <path fill="#0b5394" d="M7 0H25A7 7 0 0 1 32 7V9L29 13V19L32 23V25A7 7 0 0 1 25 32H7A7 7 0 0 1 0 25V23L3 19V13L0 9V7A7 7 0 0 1 7 0Z"/>
+  <g fill="#ffffff">
+    <!-- N: right triangle -->
+    <polygon points="4.5,4.2 4.5,14.5 14.8,14.5"/>
+    <!-- A: triangle -->
+    <polygon points="22.5,4 27.6,14.5 17.4,14.5"/>
+    <!-- S: circle -->
+    <circle cx="9.6" cy="22.5" r="5.2"/>
+    <!-- T: square -->
+    <rect x="17.5" y="17.5" width="10" height="10"/>
+  </g>
+</svg>

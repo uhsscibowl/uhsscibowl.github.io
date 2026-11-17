@@ -214,6 +214,8 @@ b { font-weight: 750; }
   line-height: 1.35;
 }
 
+.hero-photo .credit { opacity: 0.7; white-space: nowrap; }
+
 .sticker-free {
   position: absolute;
   top: -40px;
@@ -433,7 +435,7 @@ b { font-weight: 750; }
 .about-lead b { color: var(--purple); font-weight: 800; }
 
 .about-body {
-  grid-column: 6 / 13;
+  grid-column: 3 / 11;
   font-size: clamp(1.05rem, 1.7vw, 1.25rem);
   line-height: 1.55;
   padding-left: 20px;
@@ -516,22 +518,22 @@ b { font-weight: 750; }
 
 .pod {
   display: grid;
-  grid-template-columns: repeat(2, 22px);
+  grid-template-columns: repeat(2, 26px);
   gap: 6px;
   padding: 8px;
   border-radius: 14px;
   background: var(--paper);
 }
 
-.pod i {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
+.pod svg {
+  width: 26px;
+  height: 26px;
+  overflow: visible;
 }
 
-.pod .p { background: var(--purple); }
-.pod .b { background: var(--blue); }
-.pod .o { background: var(--paper); border: 3px solid var(--ink); }
+.pod .p { fill: var(--purple); }
+.pod .b { fill: var(--blue); }
+.pod .o { fill: var(--white); stroke: var(--ink); stroke-width: 2.5; stroke-linejoin: round; }
 
 .mixer-arrow {
   display: grid;
@@ -568,7 +570,7 @@ b { font-weight: 750; }
 .round-register .round-tag .tag-type { background: var(--white); color: var(--blue); }
 
 .register-h {
-  grid-column: 1 / 10;
+  grid-column: 1 / -1;
   font-weight: 700;
   font-stretch: 85%;
   font-size: clamp(1.8rem, 4.2vw, 3rem);
@@ -676,12 +678,12 @@ b { font-weight: 750; }
 }
 
 .org-answer {
-  grid-column: 1 / 5;
-  align-self: start;
+  grid-column: 1 / 3;
+  align-self: center;
 }
 
 .org-text {
-  grid-column: 5 / 13;
+  grid-column: 3 / 13;
   align-self: center;
   font-size: 1.05rem;
 }
