@@ -1,0 +1,47 @@
+,,,,,,,,,,,,,,,
+,Name,Grade,School,Assignment,?,Subjects,,Room,Description,,#,Start Time,,Schools,Teams
+,Person 1,9,Uni,[1000],FALSE,"Math, Physics",Adobe,1000,Outside courtyard,,1,9:45 AM,,Uni,Adobe
+,Person 2,10,Northwood,[1001],FALSE,"Physics, Chemistry",Bell,1001,Dining area (opening ceremony place),,2,10:30 AM,,Northwood,Bell
+,Person 3,11,Beckman,[1002],FALSE,"Chemistry, Biology",Cox,1002,First floor lobby,,3,11:00 AM,,Beckman,Cox
+,Person 4,12,Portola,[3313],FALSE,"Biology, Earth",Delta,3313,Third floor study room #1,,4,11:30 AM,,Portola,Delta
+,Person 5,9,Arcadia,[3317],FALSE,"Earth, Space",Exxon,3317,Third floor study room #2,,5,12:00 PM,,Arcadia,Exxon
+,Person 6,10,Temple City,Adobe,FALSE,"Space, Math",Fisher,,,,6,1:15 PM,,Temple City,Fisher
+,Person 7,11,Troy,Adobe,FALSE,"Math, Physics",Google,,,,7,1:45 PM,,Troy,Google
+,Person 8,12,OCSA,Adobe,FALSE,"Physics, Chemistry",Honda,,,,8,2:30 PM,,OCSA,Honda
+,Person 9,9,JTMS,Adobe,FALSE,"Chemistry, Biology",Intel,,,,9,3:00 PM,,JTMS,Intel
+,Person 10,10,Rancho,Bell,FALSE,"Biology, Earth",Jane Street,,,,,,,Rancho,Jane Street
+,Person 11,11,Whitney,Bell,FALSE,"Earth, Space",[1000],,,,,,,Whitney,
+,Person 12,12,Uni,Bell,FALSE,"Space, Math",[1001],,,,,,,,
+,Person 13,9,Northwood,Bell,FALSE,"Math, Physics",[1002],,,,,,,,
+,Person 14,10,Beckman,Cox,FALSE,"Physics, Chemistry",[3313],,,,,,,,
+,Person 15,11,Portola,Cox,FALSE,"Chemistry, Biology",[3317],,,,,,,,
+,Person 16,12,Arcadia,Cox,FALSE,"Biology, Earth",,,,,,,,,
+,Person 17,9,Temple City,Cox,FALSE,"Earth, Space",,,,,,,,,
+,Person 18,10,Troy,Delta,FALSE,"Space, Math",,,,,,,,,
+,Person 19,11,OCSA,Delta,FALSE,"Math, Physics",,,,,,,,,
+,Person 20,12,JTMS,Delta,FALSE,"Physics, Chemistry",,,,,,,,,
+,Person 21,9,Rancho,Delta,FALSE,"Chemistry, Biology",,,,,,,,,
+,Person 22,10,Whitney,Exxon,FALSE,"Biology, Earth",,,,,,,,,
+,Person 23,11,Uni,Exxon,FALSE,"Earth, Space",,,,,,,,,
+,Person 24,12,Northwood,Exxon,FALSE,"Space, Math",,,,,,,,,
+,Person 25,9,Beckman,Exxon,FALSE,"Math, Physics",,,,,,,,,
+,Person 26,10,Portola,Fisher,FALSE,"Physics, Chemistry",,,,,,,,,
+,Person 27,11,Arcadia,Fisher,FALSE,"Chemistry, Biology",,,,,,,,,
+,Person 28,12,Temple City,Fisher,FALSE,"Biology, Earth",,,,,,,,,
+,Person 29,9,Troy,Fisher,FALSE,"Earth, Space",,,,,,,,,
+,Person 30,10,OCSA,Google,FALSE,"Space, Math",,,,,,,,,
+,Person 31,11,JTMS,Google,FALSE,"Math, Physics",,,,,,,,,
+,Person 32,12,Rancho,Google,FALSE,"Physics, Chemistry",,,,,,,,,
+,Person 33,9,Whitney,Google,FALSE,"Chemistry, Biology",,,,,,,,,
+,Person 34,10,Uni,Honda,FALSE,"Biology, Earth",,,,,,,,,
+,Person 35,11,Northwood,Honda,FALSE,"Earth, Space",,,,,,,,,
+,Person 36,12,Beckman,Honda,FALSE,"Space, Math",,,,,,,,,
+,Person 37,9,Portola,Honda,FALSE,"Math, Physics",,,,,,,,,
+,Person 38,10,Arcadia,Intel,FALSE,"Physics, Chemistry",,,,,,,,,
+,Person 39,11,Temple City,Intel,FALSE,"Chemistry, Biology",,,,,,,,,
+,Person 40,12,Troy,Intel,FALSE,"Biology, Earth",,,,,,,,,
+,Person 41,9,OCSA,Intel,FALSE,"Earth, Space",,,,,,,,,
+,Person 42,10,JTMS,Jane Street,FALSE,"Space, Math",,,,,,,,,
+,Person 43,11,Rancho,Jane Street,FALSE,"Math, Physics, Chemistry",,,,,,,,,
+,Person 44,12,Whitney,Jane Street,FALSE,"Math, Chemistry, Earth",,,,,,,,,
+,Person 45,9,Uni,Jane Street,FALSE,"Biology, Earth, Space",,,,,,,,,
