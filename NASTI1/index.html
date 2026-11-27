@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>NASTI 1 Tournament</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="tournament.css">
+  <script defer src="model.js"></script>
+  <script defer src="crypto.js"></script>
+  <script defer src="dashboard.js"></script>
+</head>
+<body>
+  <header id="header" hidden></header>
+  <main id="dashboard" aria-busy="true">
+    <section class="gate"><img src="../favicon.svg" alt="NASTI 1" width="96" height="96"><p role="status">Loading…</p></section>
+  </main>
+  <dialog id="details" aria-labelledby="dialog-title">
+    <div class="dialog-head">
+      <h2 id="dialog-title"></h2>
+      <form method="dialog"><button class="icon" aria-label="Close">×</button></form>
+    </div>
+    <div id="dialog-body"></div>
+  </dialog>
+</body>
+</html>
