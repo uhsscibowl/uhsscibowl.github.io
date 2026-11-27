@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- "in Irvine": the tile is pinched at the sides into an I -->
-  <path fill="#0b5394" d="M7 0H25A7 7 0 0 1 32 7V9L29 13V19L32 23V25A7 7 0 0 1 25 32H7A7 7 0 0 1 0 25V23L3 19V13L0 9V7A7 7 0 0 1 7 0Z"/>
+  <!-- "in Irvine": the tile is pinched at the sides into a smooth, rounded I -->
+  <path fill="#0b5394" d="M7 0H25A7 7 0 0 1 32 7V9C32 11 29 11 29 13V19C29 21 32 21 32 23V25A7 7 0 0 1 25 32H7A7 7 0 0 1 0 25V23C0 21 3 21 3 19V13C3 11 0 11 0 9V7A7 7 0 0 1 7 0Z"/>
   <g fill="#ffffff">
     <!-- N: right triangle -->
     <polygon points="4.5,4.2 4.5,14.5 14.8,14.5"/>
