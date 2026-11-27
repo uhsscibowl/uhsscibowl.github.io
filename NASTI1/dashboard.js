@@ -25,11 +25,13 @@
   }
 
   function logo(size) {
+    const brand = el("span", undefined, "logo");
     const image = el("img");
     image.src = "../favicon.svg";
-    image.alt = "NASTI 1";
+    image.alt = "";
     image.width = image.height = size;
-    return image;
+    brand.append(image, el("b", "NASTI 1"));
+    return brand;
   }
 
   function gate(message) {
@@ -161,10 +163,8 @@
   function inputSelect(name, values) {
     const select = el("select");
     select.name = name;
-    select.required = true;
     const placeholder = el("option", name);
     placeholder.value = "";
-    placeholder.disabled = true;
     placeholder.selected = true;
     select.append(placeholder, ...values.map(value => el("option", value)));
     return select;
@@ -191,60 +191,67 @@
     const form = el("form");
     const name = el("input");
     name.name = "Name";
-    name.required = true;
     name.autocomplete = "off";
     name.maxLength = 100;
     name.placeholder = "Name";
     const grade = inputSelect("Grade", Tournament.grades), school = inputSelect("School", data.schools);
     const output = el("div", undefined, "search-results");
     output.setAttribute("aria-live", "polite");
-    const submit = el("button", "Find my schedule");
     for (const input of [name, grade, school]) {
       const label = el("label", input.name);
       label.append(input);
       form.append(label);
-      input.addEventListener("input", () => output.replaceChildren());
+      input.addEventListener("input", search);
     }
-    form.append(submit);
-    form.addEventListener("submit", event => {
-      event.preventDefault();
+    form.addEventListener("submit", event => event.preventDefault());
+
+    function search() {
       const query = normalize(name.value);
+      output.replaceChildren();
+      if (!query && !grade.value && !school.value) return;
       const max = Math.min(3, Math.max(1, Math.floor(query.length / 4)));
-      const matches = data.roster.filter(entry => entry.grade === grade.value && entry.school === school.value)
-        .map(entry => ({ entry, distance: distance(query, normalize(entry.name)) }))
-        .filter(match => query && match.distance <= max).sort((a, b) => a.distance - b.distance);
-      output.replaceChildren(el("p", matches.length ? "Is this you?" : "No person found"));
+      const matches = data.roster
+        .filter(entry => (!grade.value || entry.grade === grade.value) &&
+          (!school.value || entry.school === school.value))
+        .map(entry => {
+          const candidate = normalize(entry.name);
+          return { entry, distance: !query || candidate.startsWith(query) ? 0 : distance(query, candidate) };
+        })
+        .filter(match => match.distance <= max)
+        .sort((a, b) => a.distance - b.distance || a.entry.name.localeCompare(b.entry.name, "en"));
+      if (!matches.length) output.append(el("p", "No person found"));
       for (const { entry } of matches) {
         const row = el("div", undefined, "candidate");
         row.append(personLabel(entry), el("small", entry.assignment || "Unassigned"),
-          button("Confirm", () => {
+          button("→", () => {
             person = entry;
             localStorage.setItem(identityName, identity(entry));
             setInitialRound();
             render();
-            header.querySelector("button").focus();
-          }, "Confirm " + entry.name + ", " + (entry.assignment || "Unassigned")));
+            header.querySelector(".brand").focus();
+          }, "Open schedule for " + entry.name + ", " + (entry.assignment || "Unassigned"), "icon"));
         output.append(row);
       }
-    });
+    }
     section.append(logo(64), el("h1", "Find your schedule"), form, output);
     main.replaceChildren(section);
   }
 
-  function personLabel(entry) {
+  function personLabel(entry, role) {
     const wrapper = el("span", undefined, "person");
     wrapper.append(el("strong", entry.name), el("span", entry.grade, "pill"), el("span", entry.school, "pill"));
+    if (role) wrapper.append(el("span", role, "pill role"));
     for (const subject of entry.best) {
-      const pill = button(Tournament.subjects[subject], () => {
-        const expanded = pill.getAttribute("aria-expanded") !== "true";
-        pill.setAttribute("aria-expanded", String(expanded));
-        tip.hidden = !expanded;
-      }, subject, "pill subject");
-      const tip = el("span", subject, "subject-tip");
-      tip.hidden = true;
-      pill.title = subject;
-      pill.setAttribute("aria-expanded", "false");
       const wrap = el("span", undefined, "subject-wrap");
+      const tip = el("span", subject, "subject-tip");
+      tip.setAttribute("aria-hidden", "true");
+      let timeout;
+      const pill = button(Tournament.subjects[subject], () => {
+        document.querySelectorAll(".subject-wrap[data-tapped]").forEach(item => item.removeAttribute("data-tapped"));
+        wrap.dataset.tapped = "";
+        clearTimeout(timeout);
+        timeout = setTimeout(() => wrap.removeAttribute("data-tapped"), 5000);
+      }, subject, "pill subject");
       wrap.append(pill, tip);
       wrapper.append(wrap);
     }
@@ -363,16 +370,16 @@
     };
     const teamButton = team => button(Array.from(team)[0].toUpperCase(),
       () => showDetails(team, peopleList(teamMembers(team))), team);
-    add(head, "th", "Rank", "col");
+    add(head, "th", "", "col");
     data.teams.forEach(team => add(head, "th", teamButton(team), "col"));
+    add(head, "th", "Rank", "col");
     add(head, "th", "Points", "col");
 
     const { totals, ranks } = Tournament.standings(data.teams, score.results);
     const rows = table.createTBody();
     for (const a of data.teams) {
       const row = rows.insertRow();
-      const rank = add(row, "th", String(ranks.get(a)), "row");
-      rank.append(teamButton(a));
+      add(row, "th", teamButton(a), "row");
       for (const b of data.teams) {
         const id = Tournament.pairKey(a, b), game = games.get(id), result = score.results.get(id);
         const cell = add(row, "td", "");
@@ -391,6 +398,7 @@
             el("p", "Round " + game.round), roomBlock(game.room), teamBlock(a), teamBlock(b));
         }, label, mark === "←" ? "row-win" : mark === "↑" ? "column-win" : ""));
       }
+      add(row, "td", String(ranks.get(a)));
       add(row, "td", String(totals.get(a)));
     }
     wrapper.append(table);
@@ -402,19 +410,20 @@
     header.hidden = false;
     const brand = el("a", undefined, "brand");
     brand.href = "../";
-    const mark = logo(32);
-    mark.alt = "";
-    brand.append(mark, el("b", "NASTI1"));
+    brand.append(logo(32));
     const who = el("div", undefined, "current-person");
-    who.append(personLabel(person), el("small", person.room ? "mod" : "player"));
+    who.append(personLabel(person, person.room ? "mod" : "player"));
     const actions = el("div", undefined, "actions");
-    actions.append(button(showingRankings ? "▤" : "🎉", () => {
+    actions.append(button(showingRankings ? "🕒" : "🎉", () => {
       showingRankings = !showingRankings;
       render();
       header.querySelector(".actions button").focus();
-    }, showingRankings ? "Schedule" : "Rankings", "icon"), button("↪", () => {
-      forget();
-      gate("Access key required · Scan the tournament QR code");
+    }, showingRankings ? "Schedule" : "Rankings", "icon"), button("→", () => {
+      localStorage.removeItem(identityName);
+      person = undefined;
+      showingRankings = collapsed = false;
+      login();
+      main.querySelector("input").focus();
     }, "Sign out", "icon"));
     header.replaceChildren(brand, who, actions);
     const issues = el("div", [...data.warnings, ...score.errors].join(" · "), "issues");
@@ -440,6 +449,18 @@
       renderSchedule(schedule);
     }
   }
+
+  let startedOutside = false;
+  const outsideDialog = event => {
+    const bounds = dialog.getBoundingClientRect();
+    return event.target === dialog && (event.clientX < bounds.left || event.clientX > bounds.right ||
+      event.clientY < bounds.top || event.clientY > bounds.bottom);
+  };
+  dialog.addEventListener("pointerdown", event => { startedOutside = outsideDialog(event); });
+  dialog.addEventListener("click", event => {
+    if (startedOutside && outsideDialog(event)) dialog.close();
+    startedOutside = false;
+  });
 
   try {
     const params = new URLSearchParams(location.hash.slice(1));
