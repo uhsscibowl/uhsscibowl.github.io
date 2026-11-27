@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NASTI 1 Scoreboard</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --purple: #674ea7;
+      --blue: #0b5394;
+      --ink: #1b1530;
+      --paper: #f7f3ea;
+      --white: #ffffff;
+      --display: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--display);
+      font-weight: 800;
+      font-stretch: 75%;
+      user-select: none;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+      border: 0;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* contenteditable text that looks like plain text */
+    [contenteditable] {
+      outline: none;
+      cursor: text;
+      user-select: text;
+      caret-color: currentColor;
+    }
+
+    /* ---------- Header ---------- */
+    .bar {
+      flex: none;
+      height: 17vh;
+      display: flex;
+      align-items: center;
+      gap: 2vw;
+      padding: 2vh 2.5vw 0;
+    }
+
+    .title {
+      flex: 1;
+      min-width: 0;
+      font-size: 11vh;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .timer {
+      flex: none;
+      display: flex;
+      align-items: stretch;
+      gap: 0.8vw;
+      height: 13vh;
+    }
+
+    .timer-num {
+      min-width: 1.5em;
+      display: grid;
+      place-items: center;
+      padding: 0 0.15em;
+      border-radius: 2.4vh;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 11vh;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timer-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 1vh;
+    }
+
+    .timer-btns button {
+      flex: 1;
+      width: 9vh;
+      border-radius: 999px;
+      background: var(--purple);
+      color: var(--white);
+      font-size: 4.2vh;
+      line-height: 1;
+    }
+
+    .timer-btns button:active { background: var(--blue); }
+
+    .logo {
+      flex: none;
+      height: 13vh;
+      width: 13vh;
+      padding: 0;
+      background: none;
+    }
+
+    .logo svg { display: block; width: 100%; height: 100%; }
+
+    /* ---------- Teams ---------- */
+    .stage {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      gap: 1.5vw;
+      padding: 5vh 2.5vw 3vh;
+    }
+
+    .teams {
+      flex: 1;
+      min-width: 0;
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(0, 1fr);
+      gap: 1.5vw;
+    }
+
+    .card {
+      position: relative;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 6vh 1.5vw 2.5vh;
+      border-radius: 3.5vh;
+      background: var(--purple);
+      color: var(--white);
+      container-type: inline-size;
+    }
+
+    .card:nth-child(even) { background: var(--blue); }
+
+    /* name tab attached to the card's top edge */
+    .name {
+      position: absolute;
+      top: 0;
+      left: 1.5vw;
+      max-width: calc(100% - 3vw - 7vh);
+      transform: translateY(-50%) rotate(-2deg);
+      padding: 0.12em 0.5em 0.16em;
+      border: 0.45vh solid var(--ink);
+      border-radius: 999px;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: min(6vh, 13cqw);
+      line-height: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .name:focus { text-overflow: clip; }
+
+    .card:nth-child(even) .name { transform: translateY(-50%) rotate(2deg); }
+
+    .remove {
+      position: absolute;
+      top: 1.6vh;
+      right: 1.6vh;
+      height: 5vh;
+      min-width: 5vh;
+      padding: 0 1.6vh;
+      border-radius: 999px;
+      background: transparent;
+      box-shadow: inset 0 0 0 0.35vh currentColor;
+      color: var(--white);
+      font-family: var(--mono);
+      font-size: 2.6vh;
+      line-height: 1;
+      opacity: 0.55;
+    }
+
+    .remove:hover { opacity: 1; }
+
+    .remove.armed {
+      opacity: 1;
+      background: var(--paper);
+      box-shadow: none;
+      color: var(--ink);
+    }
+
+    .score-wrap {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      place-items: center;
+      container-type: size;
+    }
+
+    .score {
+      --len: 1;
+      font-size: min(122cqh, calc(94cqw / (var(--len) * 0.47)));
+      line-height: 0.8;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .btns {
+      flex: none;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8vw;
+    }
+
+    .btns button {
+      height: 10vh;
+      border-radius: 999px;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: min(6vh, 12cqw);
+      line-height: 1;
+    }
+
+    .btns .minus {
+      background: transparent;
+      box-shadow: inset 0 0 0 0.45vh var(--paper);
+      color: var(--paper);
+    }
+
+    .btns button:active { background: var(--ink); color: var(--paper); box-shadow: none; }
+
+    /* ---------- Side: add + reset ---------- */
+    .side {
+      flex: none;
+      width: 7vw;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5vh;
+    }
+
+    .add {
+      flex: 1;
+      border-radius: 3.5vh;
+      background: transparent;
+      box-shadow: inset 0 0 0 0.45vh var(--ink);
+      font-size: 15vh;
+      line-height: 1;
+    }
+
+    .add:hover { background: var(--ink); color: var(--paper); }
+
+    .reset {
+      height: 6vh;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 2.4vh;
+      opacity: 0.5;
+    }
+
+    .reset:hover { opacity: 1; }
+    .reset.armed { opacity: 1; background: var(--ink); color: var(--paper); }
+  </style>
+</head>
+<body>
+
+  <header class="bar">
+    <div class="title" id="title" spellcheck="false"></div>
+
+    <div class="timer">
+      <div class="timer-num" id="timer">0</div>
+      <div class="timer-btns">
+        <button type="button" data-secs="5">5</button>
+        <button type="button" data-secs="20">20</button>
+      </div>
+    </div>
+
+    <button type="button" class="logo" id="logo" title="Full screen" aria-label="Toggle full screen">
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <path fill="#0b5394" d="M7 0H25A7 7 0 0 1 32 7V9C32 11 29 11 29 13V19C29 21 32 21 32 23V25A7 7 0 0 1 25 32H7A7 7 0 0 1 0 25V23C0 21 3 21 3 19V13C3 11 0 11 0 9V7A7 7 0 0 1 7 0Z"/>
+        <g fill="#ffffff">
+          <polygon points="4.5,4.2 4.5,14.5 14.8,14.5"/>
+          <polygon points="22.5,4 27.6,14.5 17.4,14.5"/>
+          <circle cx="9.6" cy="22.5" r="5.2"/>
+          <rect x="17.5" y="17.5" width="10" height="10"/>
+        </g>
+      </svg>
+    </button>
+  </header>
+
+  <main class="stage">
+    <div class="teams" id="teams"></div>
+    <div class="side">
+      <button type="button" class="add" id="add" aria-label="Add team">+</button>
+      <button type="button" class="reset" id="reset" title="Reset everything" aria-label="Reset">↺</button>
+    </div>
+  </main>
+
+  <template id="card-tpl">
+    <section class="card">
+      <div class="name" spellcheck="false"></div>
+      <button type="button" class="remove" aria-label="Remove team">×</button>
+      <div class="score-wrap"><div class="score" spellcheck="false" inputmode="numeric"></div></div>
+      <div class="btns">
+        <button type="button" class="minus" data-delta="-4">−4</button>
+        <button type="button" data-delta="4">+4</button>
+        <button type="button" data-delta="10">+10</button>
+      </div>
+    </section>
+  </template>
+
+  <script>
+    (function () {
+      var KEY = 'nasti-show-v1';
+      var DEFAULT_TITLE = 'Round';
+
+      function defaultState() {
+        return { title: DEFAULT_TITLE, teams: [team(1), team(2)] };
+      }
+      function team(n) { return { name: 'Team ' + n, score: 0 }; }
+
+      function load() {
+        try {
+          var s = JSON.parse(localStorage.getItem(KEY));
+          if (s && typeof s.title === 'string' && Array.isArray(s.teams)) {
+            s.teams = s.teams.filter(function (t) { return t && typeof t.name === 'string'; })
+              .map(function (t) { return { name: t.name, score: Number(t.score) || 0 }; });
+            return s;
+          }
+        } catch (e) {}
+        return null;
+      }
+      function save() {
+        try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+      }
+
+      var state = load() || defaultState();
+
+      /* ---------- editable helper ---------- */
+      function editable(el, opts) {
+        el.setAttribute('contenteditable', 'plaintext-only');
+        if (el.contentEditable !== 'plaintext-only') {
+          el.setAttribute('contenteditable', 'true');
+          el.addEventListener('paste', function (e) {
+            e.preventDefault();
+            var text = (e.clipboardData || window.clipboardData).getData('text').replace(/\s+/g, ' ');
+            document.execCommand('insertText', false, text);
+          });
+        }
+        var before = '';
+        el.addEventListener('focus', function () { before = el.textContent; });
+        el.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') { e.preventDefault(); el.blur(); }
+          if (e.key === 'Escape') { el.textContent = before; el.blur(); }
+        });
+        el.addEventListener('input', function () { if (opts.input) opts.input(el.textContent); });
+        el.addEventListener('blur', function () {
+          var text = el.textContent.replace(/\s+/g, ' ').trim();
+          el.textContent = opts.commit(text);
+          if (opts.input) opts.input(el.textContent);
+          window.getSelection().removeAllRanges();
+          save();
+        });
+      }
+
+      /* ---------- title ---------- */
+      var titleEl = document.getElementById('title');
+      titleEl.textContent = state.title;
+      editable(titleEl, {
+        commit: function (t) { state.title = t || DEFAULT_TITLE; return state.title; }
+      });
+
+      /* ---------- timer (independent of the game) ---------- */
+      var timerEl = document.getElementById('timer');
+      var endAt = 0, tick = null;
+      document.querySelectorAll('[data-secs]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var secs = Number(b.dataset.secs);
+          endAt = performance.now() + secs * 1000;
+          timerEl.textContent = secs;
+          clearInterval(tick);
+          tick = setInterval(function () {
+            var left = Math.max(0, Math.ceil((endAt - performance.now()) / 1000));
+            timerEl.textContent = left;
+            if (left === 0) clearInterval(tick);
+          }, 50);
+        });
+      });
+
+      /* ---------- "click twice to confirm" ---------- */
+      function armable(btn, label, action) {
+        var original = btn.textContent, timer = null;
+        btn.addEventListener('click', function () {
+          if (btn.classList.contains('armed')) {
+            clearTimeout(timer);
+            action();
+            return;
+          }
+          btn.classList.add('armed');
+          btn.textContent = label;
+          timer = setTimeout(function () {
+            btn.classList.remove('armed');
+            btn.textContent = original;
+          }, 3000);
+        });
+      }
+
+      /* ---------- teams ---------- */
+      var teamsEl = document.getElementById('teams');
+      var tpl = document.getElementById('card-tpl');
+
+      function fit(el) {
+        el.style.setProperty('--len', Math.max(1, el.textContent.length));
+      }
+      function fmt(n) { return String(n).replace('-', '−'); }
+
+      function render() {
+        teamsEl.innerHTML = '';
+        state.teams.forEach(function (t, i) {
+          var card = tpl.content.firstElementChild.cloneNode(true);
+          var nameEl = card.querySelector('.name');
+          var scoreEl = card.querySelector('.score');
+
+          nameEl.textContent = t.name;
+          editable(nameEl, {
+            commit: function (text) { t.name = text || ('Team ' + (i + 1)); return t.name; }
+          });
+
+          scoreEl.textContent = fmt(t.score);
+          fit(scoreEl);
+          editable(scoreEl, {
+            input: function () { fit(scoreEl); },
+            commit: function (text) {
+              var n = parseInt(text.replace(/[−–—]/g, '-').replace(/[^\d-]/g, ''), 10);
+              if (!isNaN(n)) t.score = n;
+              return fmt(t.score);
+            }
+          });
+
+          card.querySelectorAll('[data-delta]').forEach(function (b) {
+            b.addEventListener('click', function () {
+              t.score += Number(b.dataset.delta);
+              scoreEl.textContent = fmt(t.score);
+              fit(scoreEl);
+              save();
+            });
+          });
+
+          armable(card.querySelector('.remove'), 'remove?', function () {
+            state.teams.splice(i, 1);
+            render();
+            save();
+          });
+
+          teamsEl.appendChild(card);
+        });
+      }
+
+      document.getElementById('add').addEventListener('click', function () {
+        // next number after the highest "Team N", so names don't repeat after a removal
+        var n = state.teams.length;
+        state.teams.forEach(function (t) {
+          var m = /^Team (\d+)$/.exec(t.name);
+          if (m) n = Math.max(n, Number(m[1]));
+        });
+        state.teams.push(team(n + 1));
+        render();
+        save();
+      });
+
+      armable(document.getElementById('reset'), 'reset?', function () {
+        state = defaultState();
+        titleEl.textContent = state.title;
+        render();
+        save();
+        var r = document.getElementById('reset');
+        r.classList.remove('armed');
+        r.textContent = '↺';
+      });
+
+      /* ---------- full screen via the logo ---------- */
+      document.getElementById('logo').addEventListener('click', function () {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>
