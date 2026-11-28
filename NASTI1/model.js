@@ -231,24 +231,23 @@ const Tournament = (() => {
     return { results, errors };
   }
 
-  // Points = (own scores in every played game) + 200 per win + 100 per tie
-  //        + 100 per bye (counted once its round is fully scored)
-  //        + average of opponents' scores, over games in fully scored rounds only.
-  function standings(teams, results, rounds) {
+  // Only fully finished rounds (every room scored) count; a half-finished round is ignored.
+  // Points = (own scores) + 200 per win + 100 per tie + 100 per bye
+  //        + average of opponents' scores in those games.
+  function standings(teams, allResults, rounds) {
     const totals = new Map(teams.map(team => [team, 0]));
     const add = (team, value) => totals.set(team, totals.get(team) + value);
     const winner = result => result.aScore === result.bScore ? null : result.aScore > result.bScore ? result.a : result.b;
-    for (const result of results.values()) {
-      const win = winner(result);
-      add(result.a, result.aScore + (win === result.a ? 200 : win ? 0 : 100));
-      add(result.b, result.bScore + (win === result.b ? 200 : win ? 0 : 100));
-    }
-    const against = new Map(teams.map(team => [team, []]));
+    const results = new Map(), against = new Map(teams.map(team => [team, []]));
     for (const round of rounds) {
-      const played = round.games.map(game => results.get(pairKey(game.a, game.b)));
+      const played = round.games.map(game => allResults.get(pairKey(game.a, game.b)));
       if (!played.length || played.some(result => !result)) continue;
       round.byes.forEach(team => add(team, 100));
       for (const result of played) {
+        results.set(pairKey(result.a, result.b), result);
+        const win = winner(result);
+        add(result.a, result.aScore + (win === result.a ? 200 : win ? 0 : 100));
+        add(result.b, result.bScore + (win === result.b ? 200 : win ? 0 : 100));
         against.get(result.a).push(result.bScore);
         against.get(result.b).push(result.aScore);
       }

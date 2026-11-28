@@ -150,8 +150,10 @@ th button { font-size: clamp(1.75rem, 5vw, 2.5rem); line-height: 1; }
 th button:focus-visible, td button:focus-visible { background: #fff0bd; }
 th:nth-last-child(-n+2), td:nth-last-child(-n+2) { padding-inline: .3rem; }
 td.inactive { background: #dedbe3; }
-.row-win { color: #17633c; font-size: 1.35rem; }
-.column-win { color: #a32436; font-size: 1.35rem; }
+.row-win { color: var(--ink); background: #bfe3c9; font-size: 1.35rem; }
+.column-win { color: var(--ink); background: #f3c3ca; font-size: 1.35rem; }
+td:has(> .row-win) { background: #bfe3c9; }
+td:has(> .column-win) { background: #f3c3ca; }
 dialog { width: min(540px, calc(100% - 24px)); max-height: 85svh; border: var(--heavy-line); border-radius: 18px; background: var(--paper); color: var(--ink); padding: 1rem; }
 dialog::backdrop { background: #1b1530a0; }
 .dialog-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .5rem; }
