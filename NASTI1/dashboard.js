@@ -375,7 +375,7 @@
     add(head, "th", "Rank", "col");
     add(head, "th", "Points", "col");
 
-    const { totals, ranks } = Tournament.standings(data.teams, score.results);
+    const { totals, ranks } = Tournament.standings(data.teams, score.results, rounds);
     const rows = table.createTBody();
     for (const a of data.teams) {
       const row = rows.insertRow();
